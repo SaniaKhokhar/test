@@ -1,20 +1,43 @@
 import React from 'react'
-// import '../styles/LayoutStyles.css'
-import { SidebarMenu, adminMenu, userMenu } from '../Data/data'
+import '../styles/LayoutStyles.css'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Avatar, Badge, message } from 'antd'
+import { Badge, message } from 'antd'
+import { userMenu, adminMenu } from 'Data/data'
 
 const Layout = ({children}) => {
-    const {user} = useSelector(state => state.user)
+    const { user }  = useSelector((state) => state.user)
     const location = useLocation()
     const navigate = useNavigate()
-    const SidebarMenu = user.isAdmin ? adminMenu : userMenu
+   
+    //logout function
     const handleLogout = () => {
         localStorage.clear()
         message.success('Logout Successfully')
         navigate("/login")
     }
+
+// ============ doctor menu   =========//
+const doctorMenu = [
+    {
+      name: "Home",
+      path: "/",
+      icon: "fa-solid fa-house",
+    },
+    {
+      name: "Appointments",
+      path: "/doctor-appointments",
+      icon: "fa-solid fa-list",
+    },
+    {
+      name: "Profile",
+      path: `/doctor/profile/${user && user?._id}`,
+      icon: "fa-solid fa-user",
+    },
+  ];
+//==== doctor menu ====//
+  
+const SidebarMenu =  (user && user.isAdmin) ? adminMenu : (user && user.isDoctor) ? doctorMenu: userMenu
   return (
     <>
         <div className='main'>
@@ -44,12 +67,16 @@ const Layout = ({children}) => {
                 </div>
                 <div className='content'>
                     <div className='header'>
-                        <div className='header-content'>
-                            <Badge count={user && user.notification.length}>
+                        <div className='header-content' style={{cursor:"pointer"}}>
+                            {/* <Badge count ="5" onClick={() => {navigate('notification');}}>
+                            <i className='fa-solid fa-bell'></i>
+                            </Badge> */}
+                            <Badge count={user && user.notification.length} onClick={() => {navigate('notification');}}                           
+                            >
                                 <i className='fa-solid fa-bell'></i>
                             </Badge>
-                            <i className='fa-solid fa-bell'></i>
-                            <Link tp="/profile">{user.name}</Link>
+                            {/* <i className='fa-solid fa-bell'></i> */}
+                            <Link to="/profile">{user && user.name}</Link>
                         </div>
                     </div>
                     <div className='body'>{children}</div>

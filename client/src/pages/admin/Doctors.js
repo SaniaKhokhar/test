@@ -1,7 +1,7 @@
-import { Layout, message } from "antd";
+import { Table, message } from "antd";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import Layout from "./../../components/Layout";
 const Doctors = () => {
   const [doctors, setDoctors] = useState([]);
 
@@ -10,7 +10,7 @@ const Doctors = () => {
     try {
       const res = await axios.get("/api/v1/admin/getAllDoctors", {
         headers: {
-          Authorization: `Beare ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       if (res.data.success) {
@@ -35,6 +35,7 @@ const Doctors = () => {
       );
       if (res.data.success) {
         message.success(res.data.message);
+        window.location.reload()
       }
     } catch (error) {
       console.log(error);
@@ -86,7 +87,8 @@ const Doctors = () => {
   return (
     <Layout>
       <h1>All Doctors</h1>
-    </Layout>
+      <Table columns={columns} dataSource={doctors}/>
+          </Layout>
   );
 };
 

@@ -4,10 +4,14 @@ const { loginController,
 authController,
 applyDoctorController,
 getAllNotificationController,
-deleteAllNotificationController, 
+deleteAllNotificationController,
+bookAppointmentController,
+bookingAvailabilityController,
+userAppointmentController, 
  } = require('../controllers/userCtrl')
 
  const authMiddleware = require("../middlewares/authMiddleware")
+const { getAllDoctorsController } = require('../controllers/adminCtrl')
 
 //router object
 const router = express.Router()
@@ -31,4 +35,16 @@ router.post("/get-all-notification", authMiddleware, getAllNotificationControlle
 //Notification Doctor  || POST
 router.post("/delete-all-notification", authMiddleware, deleteAllNotificationController)
 
+//GET ALL DOCTORS
+router.get('/getAllDoctors', authMiddleware, getAllDoctorsController)
+
+//BOOK APPOINTMENT
+router.post('/book-appointment',authMiddleware, bookAppointmentController)
+
+//Booking Availability
+router.post('/booking-availability',authMiddleware, bookingAvailabilityController)
+
+
+//Appointment list
+router.get('/user-appointments',authMiddleware,userAppointmentController)
 module.exports = router

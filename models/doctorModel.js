@@ -32,8 +32,8 @@ const doctorSchema = new mongoose.Schema({
         required:[true, 'experience is required']
     },
     fees:{
-        type:Number,
-        required:[true, 'fees is required']
+        type:String,
+        required:[false, 'fees is required']
     },
     status:{
         type:String,

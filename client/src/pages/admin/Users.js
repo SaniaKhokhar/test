@@ -10,7 +10,7 @@ const Users = () => {
     try {
       const res = await axios.get("/api/v1/admin/getAllUsers", {
         headers: {
-          Authorization: `Beare ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       if (res.data.success) {
